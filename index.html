@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ROBO.DANCE — The Internet's Favorite Dancing Robot</title>
+<meta name="description" content="Hilarious meme site with a high-quality dancing robot. Generate chaos."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0a0f;--surface:#14141f;--text:#fff8f0;--muted:#a8a0b8;--hot:#ff2d95;--cyan:#00f0ff;--acid:#ffe600;--lime:#b8ff3c;--border:#2a2a3d;--shadow:6px 6px 0 #000}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Fredoka,system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden;line-height:1.45}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 10%,rgba(255,45,149,.18),transparent 50%),radial-gradient(ellipse 60% 40% at 90% 20%,rgba(0,240,255,.14),transparent 45%),repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.015) 2px,rgba(255,255,255,.015) 4px);pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:1rem 1.25rem 4rem}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem 0 1.5rem;flex-wrap:wrap}
+.logo{font-weight:700;font-size:1.35rem;display:flex;align-items:center;gap:.5rem}
+.logo span{background:linear-gradient(135deg,var(--hot),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.badge{font-family:"Space Mono",monospace;font-size:.65rem;background:var(--acid);color:#000;padding:.2rem .45rem;border-radius:999px;font-weight:700;transform:rotate(-6deg)}
+.nav a{font-family:"Space Mono",monospace;font-size:.75rem;color:var(--muted);text-decoration:none;padding:.45rem .75rem;border:2px solid var(--border);border-radius:999px;margin-left:.35rem}
+.nav a:hover{color:#000;background:var(--cyan);border-color:var(--cyan)}
+.hero{display:grid;gap:1.5rem;align-items:center;margin-bottom:2.5rem}
+@media(min-width:800px){.hero{grid-template-columns:1.05fr .95fr;gap:2rem}}
+.hero h1{font-size:clamp(2.4rem,7vw,4.2rem);line-height:.95;letter-spacing:-.03em;margin-bottom:1rem}
+.hero h1 em{color:var(--hot);font-style:normal;display:block;text-shadow:3px 3px 0 var(--cyan)}
+.hero p{color:var(--muted);font-size:1.05rem;max-width:34ch;margin-bottom:1.25rem}
+.actions{display:flex;flex-wrap:wrap;gap:.75rem}
+.btn{font-family:Fredoka,sans-serif;font-weight:600;font-size:1rem;border:3px solid #000;border-radius:14px;padding:.75rem 1.25rem;cursor:pointer;box-shadow:var(--shadow);transition:transform .12s,box-shadow .12s;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;color:inherit;background:var(--surface)}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 #000}
+.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+.btn-hot{background:var(--hot);color:#fff}.btn-cyan{background:var(--cyan);color:#000}.btn-acid{background:var(--acid);color:#000}
+.btn-ghost{background:transparent;box-shadow:none;border-color:var(--border);color:var(--text)}
+.ticker{margin-top:1.25rem;overflow:hidden;border:3px solid #000;border-radius:999px;background:var(--surface);box-shadow:4px 4px 0 var(--hot)}
+.ticker-track{display:flex;gap:2rem;width:max-content;animation:marquee 18s linear infinite;padding:.5rem 0;font-family:"Space Mono",monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
+.ticker-track span{white-space:nowrap;color:var(--acid)}.ticker-track span:nth-child(odd){color:var(--cyan)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.stage{position:relative;background:linear-gradient(160deg,#1a1030,#0d1520 50%,#1a0a18);border:4px solid #000;border-radius:28px;box-shadow:10px 10px 0 var(--hot),0 0 60px rgba(0,240,255,.15);min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:1rem 1rem 0;overflow:hidden}
+.stage .live{position:absolute;top:12px;left:14px;font-family:"Space Mono",monospace;font-size:.62rem;background:var(--hot);color:#fff;padding:.25rem .5rem;border-radius:6px;z-index:3;animation:pulse 1.4s ease-in-out infinite}
+.stage .bpm{position:absolute;top:12px;right:14px;font-family:"Space Mono",monospace;font-size:.65rem;color:var(--cyan);z-index:3}
+.floor{position:absolute;bottom:0;left:0;right:0;height:28%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.4)),repeating-linear-gradient(90deg,#1e1e30 0 20px,#151525 20px 40px);border-top:2px solid var(--cyan)}
+.robot-wrap{position:relative;z-index:2;width:min(280px,70vw);height:320px;display:flex;align-items:flex-end;justify-content:center}
+.robot{width:220px;height:280px;transform-origin:50% 90%;animation:dance .55s ease-in-out infinite}
+.robot.spin-mode{animation:spinDance .7s ease-in-out infinite}
+.robot.break{animation:breakdance .65s ease-in-out infinite}
+.robot.vibing{animation:vibe .5s ease-in-out infinite}
+@keyframes dance{0%,100%{transform:translateY(0) rotate(-4deg)}25%{transform:translateY(-18px) rotate(3deg)}50%{transform:translateY(0) rotate(5deg) scaleY(.96)}75%{transform:translateY(-14px) rotate(-2deg)}}
+@keyframes spinDance{0%{transform:translateY(0) rotateY(0) rotate(-3deg)}50%{transform:translateY(-20px) rotateY(180deg) rotate(3deg)}100%{transform:translateY(0) rotateY(360deg) rotate(-3deg)}}
+@keyframes breakdance{0%,100%{transform:translateY(0) rotate(0)}20%{transform:translateY(-10px) rotate(-12deg) scale(1.05)}40%{transform:translateY(4px) rotate(18deg)}60%{transform:translateY(-22px) rotate(-8deg) scale(1.08)}80%{transform:translateY(0) rotate(10deg)}}
+@keyframes vibe{0%,100%{transform:translate(0,0)}20%{transform:translate(-6px,-8px) rotate(-6deg)}40%{transform:translate(6px,-4px) rotate(6deg)}60%{transform:translate(-4px,-14px)}80%{transform:translate(5px,-2px) rotate(4deg)}}
+@keyframes pulse{50%{opacity:.55}}
+@keyframes blink{0%,46%,54%,100%{transform:scaleY(1)}50%{transform:scaleY(.08)}}
+@keyframes armL{0%,100%{transform:rotate(-25deg)}50%{transform:rotate(35deg)}}
+@keyframes armR{0%,100%{transform:rotate(25deg)}50%{transform:rotate(-40deg)}}
+@keyframes antenna{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 6px #ff2d95)}50%{filter:drop-shadow(0 0 16px #00f0ff)}}
+.arm-l{transform-origin:70px 118px;animation:armL .55s ease-in-out infinite}
+.arm-r{transform-origin:150px 118px;animation:armR .55s ease-in-out infinite}
+.antenna-g{transform-origin:110px 28px;animation:antenna .7s ease-in-out infinite}
+.eyes{transform-origin:110px 78px;animation:blink 3.2s step-end infinite}
+.eye-glow{animation:glow 1.2s ease-in-out infinite}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:4}
+.confetti i{position:absolute;top:-12px;width:8px;height:12px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(420px) rotate(720deg);opacity:0}}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-top:1rem}
+.chip{font-family:"Space Mono",monospace;font-size:.7rem;padding:.45rem .75rem;border:2px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text);cursor:pointer}
+.chip:hover,.chip.active{background:var(--lime);color:#000;border-color:#000}
+section{margin-top:2.75rem}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.section-head h2{font-size:clamp(1.6rem,4vw,2.2rem);letter-spacing:-.02em}
+.section-head p{color:var(--muted);font-size:.95rem;max-width:36ch}
+.tag{font-family:"Space Mono",monospace;font-size:.65rem;background:var(--hot);color:#fff;padding:.2rem .5rem;border-radius:6px;margin-left:.4rem}
+.generator{display:grid;gap:1.25rem}
+@media(min-width:720px){.generator{grid-template-columns:1fr 1fr}}
+.panel{background:var(--surface);border:3px solid #000;border-radius:16px;box-shadow:var(--shadow);padding:1.15rem}
+.panel h3{font-size:1.1rem;margin-bottom:.85rem}
+label{display:block;font-family:"Space Mono",monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.35rem}
+input,select{width:100%;font-family:Fredoka,sans-serif;font-size:1rem;padding:.7rem .85rem;border:2px solid var(--border);border-radius:10px;background:#0c0c14;color:var(--text);margin-bottom:.85rem;outline:none}
+input:focus,select:focus{border-color:var(--cyan)}
+.meme-wrap{background:#000;border-radius:12px;overflow:hidden;border:2px solid var(--border);aspect-ratio:1}
+#memeCanvas{width:100%;height:100%;display:block}
+.meme-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.85rem}
+.reactions{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.75rem}
+.react-card{background:var(--surface);border:3px solid #000;border-radius:14px;padding:1rem .75rem;text-align:center;cursor:pointer;box-shadow:4px 4px 0 #000;transition:.12s;user-select:none;font:inherit;color:inherit}
+.react-card:hover{transform:translate(-2px,-2px) rotate(-1deg);box-shadow:6px 6px 0 var(--hot)}
+.react-card .emoji{font-size:2rem;display:block;margin-bottom:.35rem}
+.react-card .count{font-family:"Space Mono",monospace;font-size:.7rem;color:var(--cyan);margin-top:.25rem}
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
+.wall-card{background:var(--surface);border:3px solid #000;border-radius:14px;overflow:hidden;box-shadow:5px 5px 0 #000;transition:.15s}
+.wall-card:hover{transform:translateY(-4px) rotate(1deg);box-shadow:8px 8px 0 var(--cyan)}
+.wall-art{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:3.5rem;position:relative;background-size:cover;background-position:center}
+.wall-art .caption{position:absolute;inset:auto 8px 8px;font-family:Impact,"Arial Black",sans-serif;font-size:.85rem;text-align:center;color:#fff;text-transform:uppercase;text-shadow:2px 2px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000;line-height:1.15}
+.wall-meta{padding:.65rem .75rem;display:flex;justify-content:space-between;align-items:center;font-size:.8rem}
+.wall-meta button{background:none;border:none;color:var(--hot);cursor:pointer;font-family:"Space Mono",monospace;font-size:.7rem}
+.chaos-bar{height:18px;background:#0c0c14;border:3px solid #000;border-radius:999px;overflow:hidden;margin-top:.5rem}
+.chaos-fill{height:100%;width:12%;background:linear-gradient(90deg,var(--lime),var(--acid),var(--hot));transition:width .35s}
+.chaos-label{font-family:"Space Mono",monospace;font-size:.72rem;color:var(--muted);display:flex;justify-content:space-between}
+.toast{position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%) translateY(120%);background:var(--acid);color:#000;font-weight:700;padding:.75rem 1.25rem;border:3px solid #000;border-radius:14px;box-shadow:5px 5px 0 #000;z-index:99;transition:transform .3s;max-width:90vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+footer{margin-top:3.5rem;padding-top:1.5rem;border-top:2px dashed var(--border);text-align:center;color:var(--muted);font-size:.9rem}
+footer strong{color:var(--cyan)}
+@media(prefers-reduced-motion:reduce){.robot,.arm-l,.arm-r,.antenna-g,.eyes,.eye-glow,.ticker-track,.stage .live{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="nav">
+<div class="logo"><span>ROBO.DANCE</span><div class="badge">BETA // CHAOS</div></div>
+<div><a href="#stage">Robot</a><a href="#generator">Memes</a><a href="#reactions">Reactions</a><a href="#wall">Wall</a></div>
+</nav>
+<header class="hero">
+<div>
+<h1>This robot <em>will not stop dancing.</em></h1>
+<p>Welcome to the only website legally required to warn you about extreme groove. Generate unhinged memes. Smash reaction buttons. Raise the chaos meter until HR files a ticket.</p>
+<div class="actions">
+<a class="btn btn-hot" href="#stage">Watch it thrash →</a>
+<a class="btn btn-cyan" href="#generator">Make a meme</a>
+<button class="btn btn-acid" type="button" id="randomChaos">Random chaos</button>
+</div>
+<div class="ticker" aria-hidden="true"><div class="ticker-track">
+<span>// BEEP BOOP BOP //</span><span>NO THOUGHTS, ONLY DANCE</span><span>ERROR 404: STILLNESS NOT FOUND</span><span>TOUCH GRASS? DECLINED.</span><span>GIGACHAD OF GEARS</span><span>certified silly unit</span>
+<span>// BEEP BOOP BOP //</span><span>NO THOUGHTS, ONLY DANCE</span><span>ERROR 404: STILLNESS NOT FOUND</span><span>TOUCH GRASS? DECLINED.</span><span>GIGACHAD OF GEARS</span><span>certified silly unit</span>
+</div></div>
+</div>
+<div>
+<div class="stage" id="stage">
+<div class="live">LIVE FROM THE MAINFRAME</div>
+<div class="bpm" id="bpmLabel">BPM: 128 · GROOVE</div>
+<div class="floor"></div>
+<div class="confetti" id="confetti"></div>
+<div class="robot-wrap">
+<svg class="robot" id="robot" viewBox="0 0 220 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dancing robot mascot">
+<ellipse cx="110" cy="268" rx="48" ry="8" fill="#000" opacity=".35"/>
+<rect x="72" y="190" width="22" height="48" rx="10" fill="#1a1a24"/><rect x="64" y="230" width="38" height="22" rx="8" fill="#00d4e8"/><rect x="64" y="246" width="38" height="8" rx="3" fill="#0a0a10"/>
+<rect x="126" y="190" width="22" height="48" rx="10" fill="#1a1a24"/><rect x="118" y="230" width="38" height="22" rx="8" fill="#00d4e8"/><rect x="118" y="246" width="38" height="8" rx="3" fill="#0a0a10"/>
+<rect x="62" y="118" width="96" height="86" rx="28" fill="#00e5f5"/><rect x="70" y="128" width="80" height="66" rx="22" fill="#00c4d4"/>
+<circle cx="110" cy="162" r="18" fill="#0d0d14"/><circle cx="110" cy="162" r="12" fill="#1a1a28" stroke="#ff2d95" stroke-width="2"/><circle cx="110" cy="162" r="5" fill="#ffe600"/>
+<circle cx="78" cy="138" r="4" fill="#8a7040"/><circle cx="142" cy="138" r="4" fill="#8a7040"/>
+<g class="arm-l"><rect x="38" y="112" width="36" height="16" rx="8" fill="#1a1a24"/><circle cx="38" cy="120" r="14" fill="#00d4e8"/><path d="M28 112 Q22 120 28 128" stroke="#0a0a10" stroke-width="3" fill="none"/><path d="M30 108 Q20 120 30 132" stroke="#0a0a10" stroke-width="3" fill="none"/></g>
+<g class="arm-r"><rect x="146" y="112" width="36" height="16" rx="8" fill="#1a1a24"/><circle cx="182" cy="120" r="14" fill="#00d4e8"/><path d="M192 112 Q198 120 192 128" stroke="#0a0a10" stroke-width="3" fill="none"/><path d="M190 108 Q200 120 190 132" stroke="#0a0a10" stroke-width="3" fill="none"/></g>
+<ellipse cx="110" cy="78" rx="58" ry="52" fill="#00e5f5"/><ellipse cx="110" cy="78" rx="50" ry="44" fill="#00d0e0"/>
+<rect x="72" y="58" width="76" height="42" rx="16" fill="#0a0a12"/>
+<g class="eyes eye-glow"><circle cx="94" cy="78" r="12" fill="#ff2d95"/><circle cx="126" cy="78" r="12" fill="#ff2d95"/><circle cx="91" cy="75" r="4" fill="#ffb0d8" opacity=".7"/><circle cx="123" cy="75" r="4" fill="#ffb0d8" opacity=".7"/></g>
+<ellipse cx="50" cy="78" rx="12" ry="16" fill="#ffe600"/><ellipse cx="170" cy="78" rx="12" ry="16" fill="#ffe600"/>
+<ellipse cx="50" cy="78" rx="7" ry="10" fill="#e6c800"/><ellipse cx="170" cy="78" rx="7" ry="10" fill="#e6c800"/>
+<g class="antenna-g"><line x1="110" y1="28" x2="110" y2="12" stroke="#1a1a24" stroke-width="4" stroke-linecap="round"/><circle cx="110" cy="10" r="8" fill="#ffe600"/><circle cx="107" cy="7" r="2.5" fill="#fff8a0"/></g>
+<ellipse cx="88" cy="52" rx="14" ry="8" fill="#fff" opacity=".25"/>
+</svg>
+</div>
+</div>
+<div class="chips" id="danceModes">
+<button class="chip active" data-mode="dance" type="button">Groove</button>
+<button class="chip" data-mode="spin-mode" type="button">Spin</button>
+<button class="chip" data-mode="break" type="button">Break</button>
+<button class="chip" data-mode="vibing" type="button">Vibe</button>
+<button class="chip" id="boostBtn" type="button">🎉 Confetti</button>
+</div>
+</div>
+</header>
+<section><div class="panel"><div class="chaos-label"><span>CHAOS METER</span><span id="chaosText">mildly unhinged</span></div><div class="chaos-bar"><div class="chaos-fill" id="chaosFill"></div></div></div></section>
+<section id="generator">
+<div class="section-head"><div><h2>Meme Forge <span class="tag">HOT</span></h2><p>Caption the robot. Export pure digital nonsense.</p></div></div>
+<div class="generator">
+<div class="panel">
+<h3>Build your disaster</h3>
+<label for="topText">Top text</label>
+<input id="topText" type="text" maxlength="48" value="WHEN THE DEPLOY"/>
+<label for="bottomText">Bottom text</label>
+<input id="bottomText" type="text" maxlength="48" value="WORKS ON THE FIRST TRY"/>
+<label for="template">Vibe template</label>
+<select id="template">
+<option value="cyan">Chrome cyan</option>
+<option value="hot">Hot pink fever</option>
+<option value="acid">Acid nightclub</option>
+<option value="void">Deep void</option>
+<option value="rainbow">Illegal rainbow</option>
+</select>
+<div class="meme-actions">
+<button class="btn btn-hot" type="button" id="renderMeme">Render meme</button>
+<button class="btn btn-cyan" type="button" id="surpriseMeme">Surprise me</button>
+<button class="btn btn-acid" type="button" id="downloadMeme">Download PNG</button>
+<button class="btn btn-ghost" type="button" id="postWall">Post to wall</button>
+</div>
+</div>
+<div class="panel"><h3>Preview</h3><div class="meme-wrap"><canvas id="memeCanvas" width="640" height="640"></canvas></div></div>
+</div>
+</section>
+<section id="reactions">
+<div class="section-head"><div><h2>Reaction Panel</h2><p>Smash buttons. Feed the algorithm nothing of value.</p></div></div>
+<div class="reactions" id="reactionGrid"></div>
+</section>
+<section id="wall">
+<div class="section-head"><div><h2>Meme Wall</h2><p>Community chaos (stored in your browser).</p></div>
+<button class="btn btn-ghost" type="button" id="clearWall">Clear wall</button></div>
+<div class="wall" id="memeWall"></div>
+</section>
+<footer><p>Built with <strong>too much personality</strong> and zero corporate vibes.<br/>Robot status: <strong id="statusLine">still dancing. will not stop. cannot stop.</strong></p></footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>
