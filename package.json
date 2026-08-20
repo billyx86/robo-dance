@@ -1,0 +1,14 @@
+{
+  "name": "robo-dance",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The internet's favorite dancing robot — meme forge, reaction wall, chaos meter.",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}
