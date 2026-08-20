@@ -1,5 +1,5 @@
 import { clampChaos, chaosLabel, parseStoredChaos } from "./lib/chaos.js";
-import { capWall, seedWall } from "./lib/wall.js";
+import { capWall, seedWall, shrinkToFit } from "./lib/wall.js";
 import {
   MODES,
   SURPRISES,
@@ -298,9 +298,24 @@ try {
 }
 
 function saveWall() {
+  // localStorage quota is small and each post is a 640x640 PNG dataURL,
+  // so a full wall can exceed it. Instead of failing silently (issue #2),
+  // drop the oldest user posts / images until the payload fits, then save
+  // the shrunk copy and keep `wall` in sync with what actually persisted.
   try {
     localStorage.setItem("robo-wall", JSON.stringify(capWall(wall)));
-  } catch (e) {}
+  } catch (e) {
+    const shrunk = shrinkToFit(capWall(wall));
+    try {
+      localStorage.setItem("robo-wall", JSON.stringify(shrunk));
+      wall = shrunk;
+      renderWall();
+      showToast("Storage full — oldest posts trimmed to make room.");
+    } catch (e2) {
+      // Storage is genuinely unavailable (private mode etc.): the in-memory
+      // wall keeps working for this visit, it just won't persist.
+    }
+  }
 }
 
 function renderWall() {
