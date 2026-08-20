@@ -35,6 +35,7 @@ function setChaos(n) {
   chaos = clampChaos(n);
   chaosFill.style.width = chaos + "%";
   chaosText.textContent = chaosLabel(chaos);
+  chaosFill.parentElement.setAttribute("aria-valuenow", String(chaos));
   try {
     localStorage.setItem("robo-chaos", String(chaos));
   } catch (e) {}

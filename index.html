@@ -96,6 +96,10 @@ input:focus,select:focus{border-color:var(--cyan)}
 .chaos-fill{height:100%;width:12%;background:linear-gradient(90deg,var(--lime),var(--acid),var(--hot));transition:width .35s}
 .chaos-label{font-family:"Space Mono",monospace;font-size:.72rem;color:var(--muted);display:flex;justify-content:space-between}
 .toast{position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%) translateY(120%);background:var(--acid);color:#000;font-weight:700;padding:.75rem 1.25rem;border:3px solid #000;border-radius:14px;box-shadow:5px 5px 0 #000;z-index:99;transition:transform .3s;max-width:90vw;text-align:center}
+/* Visible keyboard focus (issue #3): the near-black theme hides the default
+   ring, so give every interactive element an unmissable outline. */
+:where(button,[role="button"],a,input,select,textarea):focus-visible{outline:3px solid var(--acid);outline-offset:3px;border-radius:6px}
+.chip:focus-visible,.btn:focus-visible,.react-card:focus-visible,.wall-meta button:focus-visible{outline:3px solid var(--acid);outline-offset:3px}
 .toast.show{transform:translateX(-50%) translateY(0)}
 footer{margin-top:3.5rem;padding-top:1.5rem;border-top:2px dashed var(--border);text-align:center;color:var(--muted);font-size:.9rem}
 footer strong{color:var(--cyan)}
@@ -157,7 +161,7 @@ footer strong{color:var(--cyan)}
 </div>
 </div>
 </header>
-<section><div class="panel"><div class="chaos-label"><span>CHAOS METER</span><span id="chaosText">mildly unhinged</span></div><div class="chaos-bar"><div class="chaos-fill" id="chaosFill"></div></div></div></section>
+<section><div class="panel"><div class="chaos-label"><span>CHAOS METER</span><span id="chaosText">mildly unhinged</span></div><div class="chaos-bar" role="meter" aria-label="Chaos meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="12"><div class="chaos-fill" id="chaosFill"></div></div></div></section>
 <section id="generator">
 <div class="section-head"><div><h2>Meme Forge <span class="tag">HOT</span></h2><p>Caption the robot. Export pure digital nonsense.</p></div></div>
 <div class="generator">
